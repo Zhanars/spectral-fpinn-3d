@@ -34,6 +34,19 @@ scipy
 matplotlib
 ```
 
+For the Julia cross-validation code in `julia/`, see `julia/Project.toml` (Julia 1.11+; `julia --project=julia -e 'using Pkg; Pkg.instantiate()'` from the repo root installs the pinned dependency versions from `julia/Manifest.toml`).
+
+## Independent Julia cross-validation
+
+`julia/` contains a from-scratch Julia re-implementation of the forward (1D, 3D) and inverse (3D) solvers, written to cross-validate the PyTorch results in a second language/framework/autodiff stack (Zygote reverse-mode + a centered finite-difference stencil for the PDE's time-second-derivative, in place of nested automatic differentiation, which was tried and found unreliable in this framework combination -- see `julia/3d/Model3D.jl`'s docstring for specifics). Component-level correctness (spectral differentiation matrices, the Kronecker-sum Laplacian, the differentiable Caputo memory operator, and the loss gradient) was verified against the Python implementation and against finite-difference gradient checks (agreement to 1e-5..1e-8 relative error) before any training run.
+
+Results so far:
+- **1D forward** (full run, matching Experiment 1's config): relative L² error **0.10% (u) / 0.44% (v)**, vs. the paper's **0.16% / 0.46%** -- same order of magnitude, independently confirming Experiment 1.
+- **3D forward** (reduced grid/epoch budget for wall-clock reasons: 11×11×11×21 points, 500 Adam epochs): loss and relative L² error decrease monotonically and land at the same order of magnitude as the Python code's own early/under-trained runs at comparable epoch counts (L² errors around several tens of percent, not yet the paper's sub-percent HQ-configuration numbers, which need a much larger epoch budget than this validation run used).
+- **3D inverse** (reduced grid: 7×7×7×13 points, 1500 discovery steps, one seed): **β recovered to 2.3% error**; **α diverged to 114% error** -- reproducing, independently, the α-harder-to-identify-than-β asymmetry and α's occasional divergence documented in the manuscript's Limitations section, rather than contradicting it.
+
+See the module docstrings (particularly `julia/1d/Model1D.jl` and `julia/3d/inverse_discovery_3d.jl`) for the AD-framework issues hit and worked around during this port: Zygote's built-in adjoint for `ForwardDiff.derivative` silently drops gradients through closure-captured parameters (wrong gradient, no error raised); and Optim.jl's L-BFGS through a flatten/unflatten + Zygote round trip hits a ChainRulesCore Tangent/Tuple interop error in this codebase, worked around with extra Adam epochs in both `train_3d.jl` and `inverse_discovery_3d.jl`.
+
 ## Notes on scope
 
 This repository contains the final, paper-matching configuration for each experiment. Several intermediate protocol variants for the inverse problem (slower co-adaptation, alternating block-coordinate updates, doubled step budgets, doubled sensor counts, a field-then-parameter bootstrap round, and grid-resolution sweeps) were tried and diagnosed during development; their outcomes are summarized quantitatively in the manuscript's Limitations section, but their driver scripts are not included here to keep this repository to the configuration actually reported. Get in touch with the corresponding author if you would like those as well.
