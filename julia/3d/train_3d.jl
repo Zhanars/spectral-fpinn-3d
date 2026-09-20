@@ -75,15 +75,24 @@ function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
     @printf("Adam done in %.2fs\n", time() - t0)
 
     if lbfgs_max_iter > 0
-        println("--- L-BFGS ---")
-        theta0, shapes = flatten_params(params)
-        f(theta) = compute_loss(unflatten_params(theta, shapes), model, F1, F2)[1]
-        g!(G, theta) = copyto!(G, Zygote.gradient(f, theta)[1])
+        # Optim.jl's L-BFGS through the flatten/unflatten + Zygote round trip
+        # hits the same ChainRulesCore Tangent-vs-Tuple interop error
+        # documented in inverse_discovery_3d.jl's Stage B (confirmed via a
+        # real run here too, after 500 Adam epochs completed cleanly). Same
+        # pragmatic fix: extra decaying-lr Adam epochs in place of L-BFGS.
+        println("--- Extra Adam refinement (L-BFGS interop issue, see comment) ---")
         t1 = time()
-        res = Optim.optimize(f, g!, theta0, Optim.LBFGS(m=50),
-                              Optim.Options(iterations=lbfgs_max_iter, g_tol=1e-7, show_trace=false))
-        params = unflatten_params(Optim.minimizer(res), shapes)
-        @printf("L-BFGS done in %.2fs (%d iters)\n", time() - t1, Optim.iterations(res))
+        for epoch in 1:lbfgs_max_iter
+            loss, grad = Zygote.withgradient(loss_fn, params)
+            opt_state, params = Optimisers.update!(opt_state, params, grad[1])
+            Optimisers.adjust!(opt_state, lr * 0.98^epoch)
+            if epoch % 20 == 0 || epoch == 1
+                _, U, V = compute_loss(params, model, F1, F2)
+                eu, ev = relative_l2_error(U, U_exact), relative_l2_error(V, V_exact)
+                @printf("Refine %4d/%d | loss=%.4e | L2 u=%.4e L2 v=%.4e\n", epoch, lbfgs_max_iter, loss, eu, ev)
+            end
+        end
+        @printf("Refinement done in %.2fs\n", time() - t1)
     end
 
     elapsed = time() - t0
