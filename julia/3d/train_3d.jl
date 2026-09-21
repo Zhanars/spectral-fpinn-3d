@@ -10,6 +10,7 @@ using Optimisers
 using Optim
 using Random
 using Printf
+using Serialization
 using SpecialFunctions: gamma as gammafn
 
 """Manufactured solution + analytical RHS sources, direct port of
@@ -43,7 +44,9 @@ end
 relative_l2_error(pred, exact) = sqrt(sum((pred .- exact) .^ 2)) / sqrt(sum(exact .^ 2))
 
 function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
-                                  hidden_dim=64, num_layers=4, lbfgs_max_iter=25, seed=0)
+                                  hidden_dim=64, num_layers=4, lbfgs_max_iter=25, seed=0,
+                                  resume_from=nothing, checkpoint_path=nothing, checkpoint_every=500,
+                                  refine_min_lr_frac=0.1)
     println("="^75)
     println("3D Spectral Fractional PINN (Julia port)")
     println("="^75)
@@ -54,10 +57,20 @@ function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
 
     model = Model3D.SpectralFPINN3D(Nx=Nx, Ny=Ny, Nz=Nz, Nt=Nt, alpha=0.4, beta=0.7,
                                      hidden_dim=hidden_dim, num_layers=num_layers)
-    params = init_params(model)
+    params = resume_from === nothing ? init_params(model) : deserialize(resume_from)
+    if resume_from !== nothing
+        @printf("Resumed parameters from %s\n", resume_from)
+    end
     U_exact, V_exact, F1, F2 = compute_3d_analytical_sources(model)
 
     loss_fn(p) = compute_loss(p, model, F1, F2)[1]
+
+    function maybe_checkpoint(tag)
+        if checkpoint_path !== nothing
+            serialize(checkpoint_path, params)
+            @printf("[checkpoint saved: %s]\n", tag)
+        end
+    end
 
     println("--- Adam ---")
     t0 = time()
@@ -71,8 +84,12 @@ function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
             eu, ev = relative_l2_error(U, U_exact), relative_l2_error(V, V_exact)
             @printf("Epoch %4d/%d | loss=%.4e | L2 u=%.4e L2 v=%.4e\n", epoch, epochs, loss, eu, ev)
         end
+        if checkpoint_path !== nothing && epoch % checkpoint_every == 0
+            maybe_checkpoint(@sprintf("adam epoch %d", epoch))
+        end
     end
     @printf("Adam done in %.2fs\n", time() - t0)
+    maybe_checkpoint("post-adam")
 
     if lbfgs_max_iter > 0
         # Optim.jl's L-BFGS through the flatten/unflatten + Zygote round trip
@@ -80,16 +97,31 @@ function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
         # documented in inverse_discovery_3d.jl's Stage B (confirmed via a
         # real run here too, after 500 Adam epochs completed cleanly). Same
         # pragmatic fix: extra decaying-lr Adam epochs in place of L-BFGS.
+        #
+        # NOTE: an earlier version of this refinement loop decayed the
+        # learning rate geometrically as lr*0.98^epoch. Over
+        # lbfgs_max_iter=1000 that reaches lr*1.7e-9 -- effectively zero
+        # after only ~300-400 epochs -- which made a run LOOK converged
+        # (identical loss/L2 printed for hundreds of epochs in a row) while
+        # actually just being frozen by a vanishing step size, not a real
+        # optimization plateau. Fixed with a cosine decay bounded below at
+        # refine_min_lr_frac*lr so the step size stays meaningfully
+        # nonzero for the whole refinement phase.
         println("--- Extra Adam refinement (L-BFGS interop issue, see comment) ---")
         t1 = time()
         for epoch in 1:lbfgs_max_iter
             loss, grad = Zygote.withgradient(loss_fn, params)
             opt_state, params = Optimisers.update!(opt_state, params, grad[1])
-            Optimisers.adjust!(opt_state, lr * 0.98^epoch)
+            cos_frac = 0.5 * (1 + cos(pi * epoch / lbfgs_max_iter))
+            lr_epoch = lr * (refine_min_lr_frac + (1 - refine_min_lr_frac) * cos_frac)
+            Optimisers.adjust!(opt_state, lr_epoch)
             if epoch % 20 == 0 || epoch == 1
                 _, U, V = compute_loss(params, model, F1, F2)
                 eu, ev = relative_l2_error(U, U_exact), relative_l2_error(V, V_exact)
-                @printf("Refine %4d/%d | loss=%.4e | L2 u=%.4e L2 v=%.4e\n", epoch, lbfgs_max_iter, loss, eu, ev)
+                @printf("Refine %4d/%d | lr=%.2e | loss=%.4e | L2 u=%.4e L2 v=%.4e\n", epoch, lbfgs_max_iter, lr_epoch, loss, eu, ev)
+            end
+            if checkpoint_path !== nothing && epoch % checkpoint_every == 0
+                maybe_checkpoint(@sprintf("refine epoch %d", epoch))
             end
         end
         @printf("Refinement done in %.2fs\n", time() - t1)
@@ -102,6 +134,7 @@ function train_3d_spectral_fpinn(; epochs=350, lr=2e-3, Nx=8, Ny=8, Nz=8, Nt=16,
     @printf("3D Training Complete in %.2f seconds\n", elapsed)
     @printf("Final Loss: %.4e | Rel L2 u: %.2f%% | Rel L2 v: %.2f%%\n", final_loss, final_l2_u*100, final_l2_v*100)
     println("="^75)
+    maybe_checkpoint("final")
     return final_l2_u, final_l2_v, elapsed
 end
 

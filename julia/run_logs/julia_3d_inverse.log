@@ -1,0 +1,24 @@
+======================================================================
+3D INVERSE DISCOVERY (Julia) | true a=0.40 b=0.70 | init a=0.65 b=0.35 | seed=0
+======================================================================
+--- Stage A/B: memory-free field pretraining ---
+[Stage A/B] Epoch     1/600 | loss=4.4145e+00
+[Stage A/B] Epoch   200/600 | loss=2.0011e+00
+[Stage A/B] Epoch   400/600 | loss=7.3038e+00
+[Stage A/B] Epoch   600/600 | loss=3.7223e+00
+--- Stage B: extra Adam field refinement (L-BFGS interop issue, see comment) ---
+Post-refinement field loss: 2.8233e+00
+--- Stage C: network frozen; alpha, beta discovery ---
+[Discovery] Step    1/1500 | loss=3.0199e+00 | alpha=0.6503 (err 62.6%) | beta=0.3503 (err 50.0%)
+[Discovery] Step  200/1500 | loss=3.0044e+00 | alpha=0.7092 (err 77.3%) | beta=0.4172 (err 40.4%)
+[Discovery] Step  400/1500 | loss=2.9914e+00 | alpha=0.7525 (err 88.1%) | beta=0.4794 (err 31.5%)
+[Discovery] Step  600/1500 | loss=2.9807e+00 | alpha=0.7844 (err 96.1%) | beta=0.5338 (err 23.7%)
+[Discovery] Step  800/1500 | loss=2.9721e+00 | alpha=0.8083 (err 102.1%) | beta=0.5795 (err 17.2%)
+[Discovery] Step 1000/1500 | loss=2.9652e+00 | alpha=0.8267 (err 106.7%) | beta=0.6170 (err 11.9%)
+[Discovery] Step 1200/1500 | loss=2.9597e+00 | alpha=0.8410 (err 110.3%) | beta=0.6478 (err 7.5%)
+[Discovery] Step 1400/1500 | loss=2.9553e+00 | alpha=0.8525 (err 113.1%) | beta=0.6729 (err 3.9%)
+======================================================================
+Completed in 1472.78s
+alpha: true=0.400 discovered=0.857 (err=114.34%)
+beta:  true=0.700 discovered=0.684 (err=2.34%)
+======================================================================

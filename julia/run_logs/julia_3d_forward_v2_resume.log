@@ -1,0 +1,156 @@
+===========================================================================
+3D Spectral Fractional PINN (Julia port)
+===========================================================================
+Grid: 11x11x11x21 = 27951 points
+Resumed parameters from run_logs/forward_v2_ckpt.jls
+--- Adam ---
+Epoch    1/4500 | loss=9.1223e+00 | L2 u=6.6904e-01 L2 v=2.8543e-01
+Epoch  112/4500 | loss=7.6092e+00 | L2 u=6.1924e-01 L2 v=2.2282e-01
+Epoch  224/4500 | loss=6.3676e+00 | L2 u=5.5995e-01 L2 v=1.7702e-01
+[checkpoint saved: adam epoch 250]
+Epoch  336/4500 | loss=5.3262e+00 | L2 u=4.9158e-01 L2 v=1.5645e-01
+Epoch  448/4500 | loss=3.9250e+00 | L2 u=3.8798e-01 L2 v=1.4889e-01
+[checkpoint saved: adam epoch 500]
+Epoch  560/4500 | loss=2.7936e+00 | L2 u=2.8802e-01 L2 v=1.4205e-01
+Epoch  672/4500 | loss=2.0561e+00 | L2 u=2.1602e-01 L2 v=1.3209e-01
+[checkpoint saved: adam epoch 750]
+Epoch  784/4500 | loss=1.4934e+00 | L2 u=1.7866e-01 L2 v=1.2166e-01
+Epoch  896/4500 | loss=9.6235e-01 | L2 u=1.4871e-01 L2 v=1.0276e-01
+[checkpoint saved: adam epoch 1000]
+Epoch 1008/4500 | loss=5.7737e-01 | L2 u=1.3454e-01 L2 v=7.9431e-02
+Epoch 1120/4500 | loss=3.6089e-01 | L2 u=1.2965e-01 L2 v=7.0538e-02
+Epoch 1232/4500 | loss=2.3764e-01 | L2 u=1.1770e-01 L2 v=6.0900e-02
+[checkpoint saved: adam epoch 1250]
+Epoch 1344/4500 | loss=1.6097e-01 | L2 u=1.0813e-01 L2 v=5.5373e-02
+Epoch 1456/4500 | loss=1.1654e-01 | L2 u=1.0167e-01 L2 v=5.1259e-02
+[checkpoint saved: adam epoch 1500]
+Epoch 1568/4500 | loss=9.6453e-02 | L2 u=9.4891e-02 L2 v=4.5801e-02
+Epoch 1680/4500 | loss=7.0546e-02 | L2 u=9.0415e-02 L2 v=4.2404e-02
+[checkpoint saved: adam epoch 1750]
+Epoch 1792/4500 | loss=5.7648e-02 | L2 u=8.5354e-02 L2 v=3.8047e-02
+Epoch 1904/4500 | loss=4.7839e-02 | L2 u=8.0487e-02 L2 v=3.4094e-02
+[checkpoint saved: adam epoch 2000]
+Epoch 2016/4500 | loss=4.0256e-02 | L2 u=7.6145e-02 L2 v=3.0861e-02
+Epoch 2128/4500 | loss=3.3835e-02 | L2 u=7.1284e-02 L2 v=2.7800e-02
+Epoch 2240/4500 | loss=5.3575e-02 | L2 u=6.8082e-02 L2 v=2.5271e-02
+[checkpoint saved: adam epoch 2250]
+Epoch 2352/4500 | loss=2.4268e-02 | L2 u=6.2458e-02 L2 v=2.2842e-02
+Epoch 2464/4500 | loss=2.5355e-02 | L2 u=5.7109e-02 L2 v=2.0120e-02
+[checkpoint saved: adam epoch 2500]
+Epoch 2576/4500 | loss=1.7844e-02 | L2 u=5.4924e-02 L2 v=1.9001e-02
+Epoch 2688/4500 | loss=1.5854e-02 | L2 u=5.1766e-02 L2 v=1.7691e-02
+[checkpoint saved: adam epoch 2750]
+Epoch 2800/4500 | loss=1.6625e-02 | L2 u=4.8747e-02 L2 v=1.7209e-02
+Epoch 2912/4500 | loss=1.1733e-02 | L2 u=4.5483e-02 L2 v=1.5191e-02
+[checkpoint saved: adam epoch 3000]
+Epoch 3024/4500 | loss=1.0359e-02 | L2 u=4.2788e-02 L2 v=1.4298e-02
+Epoch 3136/4500 | loss=9.5700e-03 | L2 u=4.0457e-02 L2 v=1.3365e-02
+Epoch 3248/4500 | loss=9.3768e-03 | L2 u=3.7915e-02 L2 v=1.3379e-02
+[checkpoint saved: adam epoch 3250]
+Epoch 3360/4500 | loss=1.5681e-02 | L2 u=3.5868e-02 L2 v=1.1859e-02
+Epoch 3472/4500 | loss=7.0352e-03 | L2 u=3.3574e-02 L2 v=1.1278e-02
+[checkpoint saved: adam epoch 3500]
+Epoch 3584/4500 | loss=5.8888e-03 | L2 u=3.1566e-02 L2 v=1.1242e-02
+Epoch 3696/4500 | loss=1.3465e-02 | L2 u=2.8367e-02 L2 v=1.0500e-02
+[checkpoint saved: adam epoch 3750]
+Epoch 3808/4500 | loss=4.8067e-03 | L2 u=2.7900e-02 L2 v=1.0319e-02
+Epoch 3920/4500 | loss=6.6189e-03 | L2 u=2.6054e-02 L2 v=1.1906e-02
+[checkpoint saved: adam epoch 4000]
+Epoch 4032/4500 | loss=4.0404e-03 | L2 u=2.4974e-02 L2 v=9.6070e-03
+Epoch 4144/4500 | loss=3.6652e-03 | L2 u=2.3483e-02 L2 v=9.2220e-03
+[checkpoint saved: adam epoch 4250]
+Epoch 4256/4500 | loss=6.2601e-03 | L2 u=2.2675e-02 L2 v=1.1230e-02
+Epoch 4368/4500 | loss=3.1961e-03 | L2 u=2.1181e-02 L2 v=8.8373e-03
+Epoch 4480/4500 | loss=2.8933e-03 | L2 u=1.9885e-02 L2 v=8.3554e-03
+[checkpoint saved: adam epoch 4500]
+Adam done in 20742.70s
+[checkpoint saved: post-adam]
+--- Extra Adam refinement (L-BFGS interop issue, see comment) ---
+Refine    1/1500 | lr=2.00e-03 | loss=2.8464e-03 | L2 u=1.9671e-02 L2 v=8.2943e-03
+Refine   20/1500 | lr=2.00e-03 | loss=2.8052e-03 | L2 u=1.9480e-02 L2 v=8.2392e-03
+Refine   40/1500 | lr=2.00e-03 | loss=2.7630e-03 | L2 u=1.9283e-02 L2 v=8.1812e-03
+Refine   60/1500 | lr=1.99e-03 | loss=2.7218e-03 | L2 u=1.9088e-02 L2 v=8.1235e-03
+Refine   80/1500 | lr=1.99e-03 | loss=2.6816e-03 | L2 u=1.8895e-02 L2 v=8.0662e-03
+Refine  100/1500 | lr=1.98e-03 | loss=2.6425e-03 | L2 u=1.8706e-02 L2 v=8.0092e-03
+Refine  120/1500 | lr=1.97e-03 | loss=2.6044e-03 | L2 u=1.8519e-02 L2 v=7.9528e-03
+Refine  140/1500 | lr=1.96e-03 | loss=2.5672e-03 | L2 u=1.8335e-02 L2 v=7.8969e-03
+Refine  160/1500 | lr=1.95e-03 | loss=2.5310e-03 | L2 u=1.8155e-02 L2 v=7.8415e-03
+Refine  180/1500 | lr=1.94e-03 | loss=2.4956e-03 | L2 u=1.7977e-02 L2 v=7.7867e-03
+Refine  200/1500 | lr=1.92e-03 | loss=2.4612e-03 | L2 u=1.7803e-02 L2 v=7.7317e-03
+Refine  220/1500 | lr=1.91e-03 | loss=2.4506e-03 | L2 u=1.7636e-02 L2 v=7.5989e-03
+Refine  240/1500 | lr=1.89e-03 | loss=4.0127e-03 | L2 u=1.7076e-02 L2 v=7.8276e-03
+[checkpoint saved: refine epoch 250]
+Refine  260/1500 | lr=1.87e-03 | loss=2.4196e-03 | L2 u=1.7352e-02 L2 v=7.5997e-03
+Refine  280/1500 | lr=1.85e-03 | loss=2.3723e-03 | L2 u=1.7207e-02 L2 v=7.5340e-03
+Refine  300/1500 | lr=1.83e-03 | loss=2.3145e-03 | L2 u=1.7014e-02 L2 v=7.4769e-03
+Refine  320/1500 | lr=1.81e-03 | loss=2.2834e-03 | L2 u=1.6872e-02 L2 v=7.4367e-03
+Refine  340/1500 | lr=1.78e-03 | loss=2.2540e-03 | L2 u=1.6720e-02 L2 v=7.3893e-03
+Refine  360/1500 | lr=1.76e-03 | loss=2.2259e-03 | L2 u=1.6574e-02 L2 v=7.3398e-03
+Refine  380/1500 | lr=1.73e-03 | loss=2.1988e-03 | L2 u=1.6431e-02 L2 v=7.2926e-03
+Refine  400/1500 | lr=1.70e-03 | loss=2.1726e-03 | L2 u=1.6291e-02 L2 v=7.2455e-03
+Refine  420/1500 | lr=1.67e-03 | loss=2.1472e-03 | L2 u=1.6154e-02 L2 v=7.1995e-03
+Refine  440/1500 | lr=1.64e-03 | loss=2.1225e-03 | L2 u=1.6021e-02 L2 v=7.1544e-03
+Refine  460/1500 | lr=1.61e-03 | loss=2.0987e-03 | L2 u=1.5891e-02 L2 v=7.1102e-03
+Refine  480/1500 | lr=1.58e-03 | loss=2.0756e-03 | L2 u=1.5765e-02 L2 v=7.0671e-03
+Refine  500/1500 | lr=1.55e-03 | loss=2.0532e-03 | L2 u=1.5642e-02 L2 v=7.0250e-03
+[checkpoint saved: refine epoch 500]
+Refine  520/1500 | lr=1.52e-03 | loss=2.0316e-03 | L2 u=1.5522e-02 L2 v=6.9839e-03
+Refine  540/1500 | lr=1.48e-03 | loss=2.0107e-03 | L2 u=1.5406e-02 L2 v=6.9438e-03
+Refine  560/1500 | lr=1.45e-03 | loss=1.9905e-03 | L2 u=1.5294e-02 L2 v=6.9048e-03
+Refine  580/1500 | lr=1.41e-03 | loss=1.9709e-03 | L2 u=1.5184e-02 L2 v=6.8667e-03
+Refine  600/1500 | lr=1.38e-03 | loss=1.9521e-03 | L2 u=1.5078e-02 L2 v=6.8297e-03
+Refine  620/1500 | lr=1.34e-03 | loss=1.9338e-03 | L2 u=1.4976e-02 L2 v=6.7938e-03
+Refine  640/1500 | lr=1.31e-03 | loss=1.9163e-03 | L2 u=1.4876e-02 L2 v=6.7588e-03
+Refine  660/1500 | lr=1.27e-03 | loss=1.8993e-03 | L2 u=1.4780e-02 L2 v=6.7249e-03
+Refine  680/1500 | lr=1.23e-03 | loss=1.8830e-03 | L2 u=1.4687e-02 L2 v=6.6920e-03
+Refine  700/1500 | lr=1.19e-03 | loss=1.8672e-03 | L2 u=1.4598e-02 L2 v=6.6601e-03
+Refine  720/1500 | lr=1.16e-03 | loss=1.8521e-03 | L2 u=1.4511e-02 L2 v=6.6292e-03
+Refine  740/1500 | lr=1.12e-03 | loss=1.8375e-03 | L2 u=1.4428e-02 L2 v=6.5993e-03
+[checkpoint saved: refine epoch 750]
+Refine  760/1500 | lr=1.08e-03 | loss=1.8234e-03 | L2 u=1.4347e-02 L2 v=6.5704e-03
+Refine  780/1500 | lr=1.04e-03 | loss=1.8100e-03 | L2 u=1.4270e-02 L2 v=6.5425e-03
+Refine  800/1500 | lr=1.01e-03 | loss=1.7970e-03 | L2 u=1.4195e-02 L2 v=6.5155e-03
+Refine  820/1500 | lr=9.69e-04 | loss=1.7846e-03 | L2 u=1.4123e-02 L2 v=6.4896e-03
+Refine  840/1500 | lr=9.31e-04 | loss=1.7727e-03 | L2 u=1.4055e-02 L2 v=6.4646e-03
+Refine  860/1500 | lr=8.94e-04 | loss=1.7613e-03 | L2 u=1.3989e-02 L2 v=6.4405e-03
+Refine  880/1500 | lr=8.58e-04 | loss=1.7504e-03 | L2 u=1.3925e-02 L2 v=6.4174e-03
+Refine  900/1500 | lr=8.22e-04 | loss=1.7399e-03 | L2 u=1.3864e-02 L2 v=6.3952e-03
+Refine  920/1500 | lr=7.86e-04 | loss=1.7300e-03 | L2 u=1.3806e-02 L2 v=6.3739e-03
+Refine  940/1500 | lr=7.51e-04 | loss=1.7204e-03 | L2 u=1.3751e-02 L2 v=6.3535e-03
+Refine  960/1500 | lr=7.17e-04 | loss=1.7113e-03 | L2 u=1.3698e-02 L2 v=6.3340e-03
+Refine  980/1500 | lr=6.83e-04 | loss=1.7027e-03 | L2 u=1.3647e-02 L2 v=6.3153e-03
+Refine 1000/1500 | lr=6.50e-04 | loss=1.6944e-03 | L2 u=1.3599e-02 L2 v=6.2974e-03
+[checkpoint saved: refine epoch 1000]
+Refine 1020/1500 | lr=6.18e-04 | loss=1.6865e-03 | L2 u=1.3553e-02 L2 v=6.2804e-03
+Refine 1040/1500 | lr=5.86e-04 | loss=1.6791e-03 | L2 u=1.3509e-02 L2 v=6.2642e-03
+Refine 1060/1500 | lr=5.56e-04 | loss=1.6720e-03 | L2 u=1.3467e-02 L2 v=6.2487e-03
+Refine 1080/1500 | lr=5.26e-04 | loss=1.6652e-03 | L2 u=1.3428e-02 L2 v=6.2340e-03
+Refine 1100/1500 | lr=4.98e-04 | loss=1.6589e-03 | L2 u=1.3390e-02 L2 v=6.2201e-03
+Refine 1120/1500 | lr=4.70e-04 | loss=1.6528e-03 | L2 u=1.3355e-02 L2 v=6.2068e-03
+Refine 1140/1500 | lr=4.44e-04 | loss=1.6471e-03 | L2 u=1.3321e-02 L2 v=6.1942e-03
+Refine 1160/1500 | lr=4.19e-04 | loss=1.6416e-03 | L2 u=1.3289e-02 L2 v=6.1822e-03
+Refine 1180/1500 | lr=3.95e-04 | loss=1.6365e-03 | L2 u=1.3259e-02 L2 v=6.1709e-03
+Refine 1200/1500 | lr=3.72e-04 | loss=1.6317e-03 | L2 u=1.3230e-02 L2 v=6.1602e-03
+Refine 1220/1500 | lr=3.50e-04 | loss=1.6271e-03 | L2 u=1.3203e-02 L2 v=6.1500e-03
+Refine 1240/1500 | lr=3.30e-04 | loss=1.6227e-03 | L2 u=1.3177e-02 L2 v=6.1404e-03
+[checkpoint saved: refine epoch 1250]
+Refine 1260/1500 | lr=3.11e-04 | loss=1.6186e-03 | L2 u=1.3153e-02 L2 v=6.1312e-03
+Refine 1280/1500 | lr=2.94e-04 | loss=1.6147e-03 | L2 u=1.3130e-02 L2 v=6.1226e-03
+Refine 1300/1500 | lr=2.78e-04 | loss=1.6110e-03 | L2 u=1.3108e-02 L2 v=6.1143e-03
+Refine 1320/1500 | lr=2.63e-04 | loss=1.6074e-03 | L2 u=1.3087e-02 L2 v=6.1065e-03
+Refine 1340/1500 | lr=2.50e-04 | loss=1.6041e-03 | L2 u=1.3067e-02 L2 v=6.0989e-03
+Refine 1360/1500 | lr=2.38e-04 | loss=1.6009e-03 | L2 u=1.3048e-02 L2 v=6.0918e-03
+Refine 1380/1500 | lr=2.28e-04 | loss=1.5978e-03 | L2 u=1.3029e-02 L2 v=6.0848e-03
+Refine 1400/1500 | lr=2.20e-04 | loss=1.5948e-03 | L2 u=1.3012e-02 L2 v=6.0781e-03
+Refine 1420/1500 | lr=2.13e-04 | loss=1.5919e-03 | L2 u=1.2995e-02 L2 v=6.0716e-03
+Refine 1440/1500 | lr=2.07e-04 | loss=1.5890e-03 | L2 u=1.2978e-02 L2 v=6.0653e-03
+Refine 1460/1500 | lr=2.03e-04 | loss=1.5863e-03 | L2 u=1.2961e-02 L2 v=6.0590e-03
+Refine 1480/1500 | lr=2.01e-04 | loss=1.5835e-03 | L2 u=1.2945e-02 L2 v=6.0528e-03
+Refine 1500/1500 | lr=2.00e-04 | loss=1.5807e-03 | L2 u=1.2928e-02 L2 v=6.0466e-03
+[checkpoint saved: refine epoch 1500]
+Refinement done in 6759.75s
+===========================================================================
+3D Training Complete in 27503.28 seconds
+Final Loss: 1.5806e-03 | Rel L2 u: 1.29% | Rel L2 v: 0.60%
+===========================================================================
+[checkpoint saved: final]
